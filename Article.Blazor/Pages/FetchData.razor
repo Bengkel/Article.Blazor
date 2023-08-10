@@ -1,4 +1,7 @@
 ﻿@page "/fetchdata"
+
+@*REMARK*@
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject HttpClient Http
 
 <PageTitle>Weather forecast</PageTitle>
@@ -13,7 +16,11 @@
 }
 else
 {
-    <table class="table">
+    @baseUrl
+
+    @forecasts
+
+@*    <table class="table">
         <thead>
             <tr>
                 <th>Date</th>
@@ -32,16 +39,20 @@ else
                     <td>@forecast.Summary</td>
                 </tr>
             }
-        </tbody>
-    </table>
+@*        </tbody>
+    </table>*@
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    //private WeatherForecast[]? forecasts;
+    private string? forecasts;
+    private string? baseUrl;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        //forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        baseUrl = Http.BaseAddress.ToString();
+        forecasts = await Http.GetStringAsync("api/Function1");
     }
 
     public class WeatherForecast

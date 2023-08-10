@@ -3,11 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Article.Blazor", "Article.Blazor\Article.Blazor.csproj", "{9A570A5D-AC4F-4C6E-AC00-B831D9D9E33F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Article.Blazor", "Article.Blazor\Article.Blazor.csproj", "{9A570A5D-AC4F-4C6E-AC00-B831D9D9E33F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Api", "Blazor.Api\Blazor.Api.csproj", "{79055CA2-22FB-497D-963E-1CBF635301BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Api", "Blazor.Api\Blazor.Api.csproj", "{79055CA2-22FB-497D-963E-1CBF635301BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{B1A8048C-A8AF-4AAA-A362-CA120BE0C62B}"
+	ProjectSection(SolutionItems) = preProject
+		Automation\resources.ps1 = Automation\resources.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
