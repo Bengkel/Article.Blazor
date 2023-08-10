@@ -1,68 +1,43 @@
 ﻿@page "/fetchdata"
 
-@*REMARK*@
+@using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject HttpClient Http
 
-<PageTitle>Weather forecast</PageTitle>
+@attribute [Authorize]
 
-<h1>Weather forecast</h1>
-
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (forecasts == null)
+@if (response == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @baseUrl
-
-    @forecasts
-
-@*    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-@*        </tbody>
-    </table>*@
+    <div class="row">
+        <p>@response</p>
+    </div>
 }
 
 @code {
-    //private WeatherForecast[]? forecasts;
-    private string? forecasts;
-    private string? baseUrl;
+    private string? response;
 
     protected override async Task OnInitializedAsync()
     {
-        //forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-        baseUrl = Http.BaseAddress.ToString();
-        forecasts = await Http.GetStringAsync("api/Function1");
-    }
 
-    public class WeatherForecast
-    {
-        public DateTime Date { get; set; }
+        // REMARK Get user name
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        var name = user?.Identity?.Name;
 
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        // REMARK call azure function
+        try
+        {
+            response = await Http.GetStringAsync($"api/Function1?name={name}");
+        }
+        catch (Exception exception)
+        {
+            response = exception.Message;
+        }
     }
 }
